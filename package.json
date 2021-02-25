@@ -1,0 +1,24 @@
+{
+  "name": "adsi-compraventa",
+  "version": "1.0.0",
+  "description": "Adsi Sistema De Compra Venta",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "keywords": [
+    "compra",
+    "venta",
+    "node",
+    "vue"
+  ],
+  "author": "Carlos Andres Rincon Sanchez",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.18"
+  }
+}

@@ -1,0 +1,4 @@
+a7yNFVk88jK@wQb
+admin
+
+mongodb+srv://admin:a7yNFVk88jK@wQb@compraventa.ar61s.mongodb.net/compraventa

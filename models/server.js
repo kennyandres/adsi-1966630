@@ -5,7 +5,7 @@ import { dbconnection } from "../database/config.js"
 class server {
     constructor() {
         this.app = express() //express
-        this.port = process.env.port
+        this.port = process.env.PORT
         this.conectardb();  //conectar BD
         this.middlewares(); //iniciar middlewares
         this.routes();  //routes

@@ -1,5 +1,7 @@
 import Usuario from "../models/usuario.js"
 import bcryptjs  from "bcryptjs"
+import usuario from "../models/usuario.js";
+import { generarJWT } from "../middlewares/validarToken.js";
 
 
 const usuarioGet = async(req, res) => {
@@ -37,6 +39,44 @@ const usuarioPost = async (req, res) => {
         usuario
     })
 } 
+
+const login = async (req,res)=>{
+    const{email,password}=req.body
+    try {
+        const usuario= await Usuario.findOne({email})
+        if(!usuario){
+            return res.status(400).json({
+                msg:'Usuario/Password no es correcto '
+            })
+        }
+        if(usuario.estado===0){
+            return res.status(400).json({
+                msg:'Usuario/Password no es correcto '
+            })
+        }
+        const validarpassword=bcryptjs.compareSync(password,usuario.password)
+        if(!validarpassword){
+            return res.status(400).json({
+                msg:'Usuario/Password no es correcto '
+            })
+        }
+
+        const token= await generarJWT(usuario.id)
+
+        res.json({
+            usuario,
+            token
+        })
+
+
+    } catch (error) {
+        return res.status(500).json({
+            error,
+            msg:'comuniquese con el admistrador'
+        })
+        
+    }
+}
 
 const usuarioPut= async(req,res) =>{
     const {id}=req.params
@@ -89,4 +129,4 @@ const usuarioDelete = async(req,res) =>{
 
 
     
-export {usuarioGet,usuarioGetById,usuarioPost,usuarioPut, usuarioPutActivar, usuarioPutDesactivar,usuarioDelete}
+export {login, usuarioGet,usuarioGetById,usuarioPost,usuarioPut, usuarioPutActivar, usuarioPutDesactivar,usuarioDelete}

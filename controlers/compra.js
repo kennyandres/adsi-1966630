@@ -5,11 +5,11 @@ const compraGet = async (req, res) => {
     const compra = await Compra
         .find({
             $or:[
-                {nombre: new RegExp(value,'i')},
-                {descripcion:new RegExp(value,'i')}
+                {numerocomprobante: new RegExp(value,'i')},
+                {tipocomprobante:new RegExp(value,'i')}
             ]
         })
-        .sort({ "createAt": -1 })
+        .sort({ "createdAt": -1 })
     res.json({
         compra
     })    
@@ -25,6 +25,7 @@ const compraGetByID = async (req, res) => {
 }
 
 const compraPost = async (req, res) => {
+    
     const { usuario,persona,tipocomprobante,numerocomprobante,impuesto,total,detalles}=req.body
 
     const compra = new Compra({ usuario,persona,tipocomprobante,numerocomprobante,impuesto,total,detalles })
@@ -39,7 +40,7 @@ const compraPost = async (req, res) => {
 const compraPut = async (req,res)=>{
     const {id}=req.params;
 
-    const{_id,createAt,estado,__v,...resto}=req.body
+    const{_id,createdAt,estado,__v,...resto}=req.body
 
     const compra= await Compra.findByIdAndUpdate(id,resto)
 
@@ -67,14 +68,6 @@ const compraPutDesactivar=async(req,res)=>{
         compra
     })
 }
-const compraDelete=async(req,res)=>{
-    const {id}=req.params;
 
-    const compra=await Compra.findByIdAndDelete(id)
-    res.json({
-        compra
-    })
 
-}
-
-export {compraGet,compraGetByID,compraPost,compraPut,compraPutActivar,compraPutDesactivar,compraDelete }
+export {compraGet,compraGetByID,compraPost,compraPut,compraPutActivar,compraPutDesactivar }

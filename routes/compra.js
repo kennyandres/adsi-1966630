@@ -3,7 +3,7 @@ import Router from 'express'
 import validador from 'express-validator'
 const { check } = validador
 
-import { compraDelete, compraGet, compraGetByID, compraPost, compraPut, compraPutActivar, compraPutDesactivar } from "../controlers/compra.js";
+import {compraGet, compraGetByID, compraPost, compraPut, compraPutActivar, compraPutDesactivar } from "../controlers/compra.js";
 import { ExisteCompraById } from "../helpers/compra.js";
 import { ExisteByNumcomprobante } from '../helpers/venta.js';
 import validarcampos from "../middlewares/validarCampos.js";
@@ -62,13 +62,6 @@ router.put('/desactivar/:id', [
     validarcampos
 ], compraPutDesactivar)
 
-router.delete('/:id', [
-    validarJWT,
-    check('id', 'no es un ID valido').isMongoId(),
-    check('id').custom(ExisteCompraById),
-    check('numerocomprobante').custom(ExisteByNumcomprobante),
-    validarcampos
-], compraDelete);
 
 export default router;
 

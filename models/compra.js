@@ -4,7 +4,7 @@ const compraSchema = Mongoose.Schema({
     usuario:{type:Mongoose .Schema.Types.ObjectId,ref:'usuario',required:true},
     persona:{type:Mongoose.Schema.Types.ObjectId,ref:'persona',required:true},
     tipocomprobante:{type:String,required:true,maxlength:20},
-    numerocomprobante:{type:Number,required:true,maxlength:10},
+    numerocomprobante:{type:String,required:true,maxlength:10},
     impuesto:{type:Number,required:true},
     total:{type:Number,required:true},
     detalles: [{

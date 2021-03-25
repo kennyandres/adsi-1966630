@@ -1,6 +1,5 @@
 import Usuario from "../models/usuario.js"
 import bcryptjs  from "bcryptjs"
-import usuario from "../models/usuario.js";
 import { generarJWT } from "../middlewares/validarToken.js";
 
 

@@ -5,15 +5,16 @@ const ventaGet = async (req, res) => {
     const venta = await Venta
         .find({
             $or:[
-                {nombre: new RegExp(value,'i')},
-                {descripcion:new RegExp(value,'i')}
+                {numerocomprobante: new RegExp(value,'i')},
+                {tipocomprobante:new RegExp(value,'i')}
             ]
         })
-        .sort({ "createAt": -1 })
+        .sort({ "createdAt": -1 })
     res.json({
         venta
     })    
 }
+
 
 const ventaGetByID = async (req, res) => {
     const {id}=req.params;
@@ -66,14 +67,6 @@ const ventaPutDesactivar=async(req,res)=>{
         venta
     })
 }
-const ventaDelete=async(req,res)=>{
-    const {id}=req.params;
 
-    const venta=await Venta.findByIdAndDelete(id)
-    res.json({
-        venta
-    })
 
-}
-
-export {ventaGet,ventaGetByID,ventaPost,ventaPut,ventaPutActivar,ventaPutDesactivar,ventaDelete }
+export {ventaGet,ventaGetByID,ventaPost,ventaPut,ventaPutActivar,ventaPutDesactivar }

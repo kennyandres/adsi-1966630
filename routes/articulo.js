@@ -42,28 +42,32 @@ router.post('/login', [
 
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El nombre debe ser valido').not().isEmpty(),
+    check('id', 'no es un ID valido').isMongoId(),
+    check('id').custom(ExisteArticuloById),
     check('nombre').custom(ExisteArticuloByNombre),
     validarcampos
 ], articuloPut)
 
 router.put('/activar/:id', [
     validarJWT,
-    check('nombre', 'El nombre debe ser valido').not().isEmpty(),
+    check('id', 'no es un ID valido').isMongoId(),
+    check('id').custom(ExisteArticuloById),
     check('nombre').custom(ExisteArticuloByNombre),
     validarcampos
 ], articuloPutActivar)
 
 router.put('/desactivar/:id', [
     validarJWT,
-    check('nombre', 'El nombre debe ser valido').not().isEmpty(),
+    check('id', 'no es un ID valido').isMongoId(),
+    check('id').custom(ExisteArticuloById),
     check('nombre').custom(ExisteArticuloByNombre),
     validarcampos
 ], articuloPutDesactivar)
 
 router.delete('/:id', [
     validarJWT,
-    check('nombre', 'El nombre debe ser valido').not().isEmpty(),
+    check('id', 'no es un ID valido').isMongoId(),
+    check('id').custom(ExisteArticuloById),
     check('nombre').custom(ExisteArticuloByNombre),
     validarcampos
 ], articuloDelete);

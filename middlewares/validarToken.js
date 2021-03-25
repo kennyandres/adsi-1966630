@@ -21,6 +21,7 @@ const generarJWT = (id) => {
 }
 
 const validarJWT = async (req,res,next) => {
+
     const token = req.header('token')
 
     if (!token) {

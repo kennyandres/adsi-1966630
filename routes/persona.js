@@ -1,7 +1,7 @@
 import Router from 'express'
 import validador from 'express-validator';
 const {check}=validador
-import { personaDelete, personaGet, personaGetById, personaPost, personaPut, personaPutActivar, personaPutDesactivar } from "../controlers/persona.js";
+import { personaDelete, personaGet, personaGetById, personaGetListClientes,personaGetListProveedores, personaPost, personaPut, personaPutActivar, personaPutDesactivar } from "../controlers/persona.js";
 import { ExistePersonaById, ExistePersonaByNombre, ExistePersonaByEmail } from "../helpers/persona.js";
 import validarcampos from "../middlewares/validarCampos.js";
 import { validarRol } from '../middlewares/validarRol.js';
@@ -17,12 +17,23 @@ router.get('/', [
 
 ], personaGet)
 
+router.get('/listclientes',[
+    validarJWT,
+    validarcampos   
+],personaGetListClientes)
+
+router.get('/listproveedores',[
+    validarJWT,
+    validarcampos,
+], personaGetListProveedores)
+
+
 router.get('/:id',[
     validarJWT,
-    check('id','no es un ID valido').isMongoId(),
-    check('id').custom (ExistePersonaById), 
     validarcampos
 ],personaGetById)
+
+
 
 router.post('/',[    
     validarJWT,

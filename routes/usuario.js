@@ -24,7 +24,7 @@ router.get('/:id', [
 ], usuarioGetById)
 
 router.post('/', [
-    validarJWT,
+
     check('nombre', 'El nombre debe ser valido').not().isEmpty(),
     check('nombre').custom(ExisteUsuarioByNombre),
     validarcampos

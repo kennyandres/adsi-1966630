@@ -1,4 +1,18 @@
 import Compra from '../models/compra.js'
+import Articulo from '../models/articulo.js'
+
+
+const aumentarStock=async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)+parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
+}
+
+const descontarStock=async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)-parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
+}
 
 const compraGet = async (req, res) => {
     const {value}=req.query;
@@ -32,6 +46,8 @@ const compraPost = async (req, res) => {
 
     await compra.save();
 
+    detalles.map((articulo)=> aumentarStock(articulo._id,articulo.cantidad))
+
     res.json({
         compra
     })
@@ -55,6 +71,8 @@ const compraPutActivar=async(req,res)=>{
     const{id}=req.params;
     const compra= await Compra.findByIdAndUpdate(id,{estado:1})
 
+    detalles.map((articulo)=> aumentarStock(articulo._id,articulo.cantidad))
+
     res.json({
         compra
     })
@@ -64,10 +82,13 @@ const compraPutDesactivar=async(req,res)=>{
     const{id}=req.params;
     const compra= await Compra.findByIdAndUpdate(id,{estado:0})
 
+    detalles.map((articulo)=> descontarStock(articulo._id,articulo.cantidad))
+
+
     res.json({
         compra
     })
 }
 
 
-export {compraGet,compraGetByID,compraPost,compraPut,compraPutActivar,compraPutDesactivar }
+export {compraGet,compraGetByID,compraPost,compraPut,compraPutActivar,compraPutDesactivar,aumentarStock,descontarStock}

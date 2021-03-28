@@ -1,4 +1,18 @@
 import Venta from '../models/venta.js'
+import Articulo from '../models/articulo.js'
+
+
+const aumentarStock=async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)+parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
+}
+
+const descontarStock=async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)-parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
+}
 
 const ventaGet = async (req, res) => {
     const {value}=req.query;
@@ -31,6 +45,8 @@ const ventaPost = async (req, res) => {
 
     await venta.save();
 
+    detalles.map((articulo)=> descontarStock(articulo._id,articulo.cantidad))
+
     res.json({
         venta
     })
@@ -54,6 +70,8 @@ const ventaPutActivar=async(req,res)=>{
     const{id}=req.params;
     const venta= await Venta.findByIdAndUpdate(id,{estado:1})
 
+    detalles.map((articulo)=> descontarStock(articulo._id,articulo.cantidad))
+
     res.json({
         venta
     })
@@ -63,10 +81,13 @@ const ventaPutDesactivar=async(req,res)=>{
     const{id}=req.params;
     const venta= await Venta.findByIdAndUpdate(id,{estado:0})
 
+    detalles.map((articulo)=> aumentarStock(articulo._id,articulo.cantidad))
+
     res.json({
         venta
     })
 }
 
 
-export {ventaGet,ventaGetByID,ventaPost,ventaPut,ventaPutActivar,ventaPutDesactivar }
+
+export {ventaGet,ventaGetByID,ventaPost,ventaPut,ventaPutActivar,ventaPutDesactivar,aumentarStock,descontarStock}
